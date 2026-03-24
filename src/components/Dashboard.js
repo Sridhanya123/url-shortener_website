@@ -30,13 +30,12 @@ export default function Dashboard() {
     loadUrls();
   }, []);
 
-  // 🔍 Search button logic
   function handleSearch() {
     setSearch(searchInput);
     setPage(1);
   }
 
-  // 🗑 Delete
+
   function handleDelete(id) {
     setDeleteId(id);
     setShowModal(true);
@@ -50,7 +49,6 @@ export default function Dashboard() {
     loadUrls();
   }
 
-  // ✏️ Edit
   function handleEdit(url) {
     setEditData(url);
     setShowEdit(true);
@@ -66,7 +64,6 @@ export default function Dashboard() {
     loadUrls();
   }
 
-  // 🔍 Filtering
   const filtered = urls.filter(u =>
     u.title.toLowerCase().includes(search.toLowerCase()) ||
     u.originalUrl.toLowerCase().includes(search.toLowerCase())
@@ -82,7 +79,7 @@ export default function Dashboard() {
       <div className="container mt-4">
         <AddUrl refresh={loadUrls} />
 
-        {/* 🔍 Search UI */}
+       
         <div className="input-group mb-3">
           <input
             className="form-control"
@@ -95,7 +92,7 @@ export default function Dashboard() {
           </button>
         </div>
 
-        {/* 📊 Table */}
+    
         <table className="table table-bordered table-striped">
           <thead>
             <tr>
@@ -110,7 +107,14 @@ export default function Dashboard() {
             {paginated.map(u => (
               <tr key={u.id}>
                 <td>{u.title}</td>
-                <td>{u.shortUrl}</td>
+                <td>
+  <button
+    className="btn btn-primary btn-sm"
+    onClick={() => window.open(u.originalUrl, "_blank")}
+  >
+    {u.shortUrl}
+  </button>
+</td>
                 <td>{u.createdAt}</td>
                 <td>
                   <button
@@ -132,7 +136,7 @@ export default function Dashboard() {
           </tbody>
         </table>
 
-        {/* Pagination */}
+        
         <div className="d-flex justify-content-between">
           <button
             className="btn btn-secondary"
@@ -152,14 +156,13 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Delete Modal */}
       <Modal
         show={showModal}
         onConfirm={confirmDelete}
         onCancel={() => setShowModal(false)}
       />
 
-      {/* Edit Modal */}
+      
       <EditUrl
         show={showEdit}
         urlData={editData}
